@@ -1,0 +1,156 @@
+/*1*/
+SELECT *
+FROM customers
+WHERE country = 'Brazil';
+
+SELECT DISTINCT country
+FROM customers
+;
+/*2*/
+SELECT *
+FROM employees LIMIT 10;
+--Sales Support Agent
+
+SELECT *
+FROM employees
+WHERE title = 'Sales Support Agent';
+
+
+--ex3
+SELECT *
+FROM tracks
+WHERE composer = 'AC/DC';
+
+SELECT DISTINCT composer
+FROM tracks;
+
+
+SELECT * 
+FROM artists
+WHERE name = 'AC/DC'
+-- ArtistId = 1
+
+SELECT * 
+FROM albums
+WHERE ArtistId = 1
+-- AlbumId IN (1,4)
+
+SELECT * 
+FROM tracks
+WHERE AlbumId IN (1,4)
+
+
+SELECT t.TrackId, t.Name AS TrackName, al.Title, t.Composer, ar.Name AS ArtistName
+FROM tracks AS t
+INNER JOIN albums AS al ON t.AlbumId = al.AlbumId
+INNER JOIN artists AS ar ON al.ArtistId = ar.ArtistId
+WHERE ar.Name = 'AC/DC'
+
+
+--4--
+SELECT * 
+FROM albums 
+WHERE ArtistsId = 1
+
+SELECT * 
+FROM tracks 
+WHERE ArtistsId IN (1,4)
+
+
+SELECT  t.*
+FROM tracks AS t
+INNER JOIN albums AS al ON t.AlbumId = al.AlbumId
+INNER JOIN artists AS ar ON al.ArtistId = ar.ArtistId
+WHERE ar.Name = 'AC/DC'
+
+
+SELECT firstname || ' '|| lastname AS NombreCompleto, 
+customerid AS ID, 
+country AS Pais 
+FROM customers
+WHERE country != 'USA';
+
+--5--
+SELECT *
+FROM employees
+WHERE Title = 'Sales Support Agent'
+
+
+SELECT
+firstname || ' '|| lastname AS NombreCompleto, 
+city  || ' '|| state || ' '|| country AS Dirección,
+email 
+FROM employees
+WHERE Title = 'Sales Support Agent'
+
+
+--6--
+
+SELECT DISTINCT
+billingcity 
+FROM invoices;
+
+
+SELECT billingcountry,
+COUNT (invoiceid)
+FROM invoices
+GROUP BY billingcountry
+ORDER BY 2 DESC
+-- y si quisera sabes cunatas a cada país
+
+--7--
+SELECT 
+State,
+COUNT (customerid) AS NClientes
+FROM customers
+WHERE country = 'USA'
+Group by State 
+ORDER BY 2 DESC;
+
+--Andrea--
+--8--
+SELECT COUNT(*) AS NumberOfItems
+FROM invoice_items
+WHERE InvoiceId = 37;
+
+
+--9--NO FUNCIONA
+SELECT COUNT(*) AS NumberOfSongs
+FROM tracks t
+JOIN albums a ON t.AlbumId = a.AlbumId
+JOIN artists ar ON a.ArtistId = ar.ArtistId
+WHERE ar.Name = 'AC/DC';
+
+--10--
+SELECT InvoiceId, COUNT(*) AS NumberoFacturas
+FROM invoice_items
+GROUP BY InvoiceId;
+
+--11--
+SELECT billingcountry, COUNT(*) AS NumberoFacturasPaís
+FROM invoices
+GROUP BY billingcountry;
+
+--12--año con cuatro digitos
+SELECT strftime('%Y', InvoiceDate) AS Year, COUNT(*) AS NumberoFacturas2009_2011
+FROM invoices
+WHERE strftime('%Y', InvoiceDate) IN ('2009', '2011')
+GROUP BY Year;
+
+--13--
+SELECT COUNT(*) AS NumberoFacturas2009_2011
+FROM invoices
+WHERE strftime('%Y', InvoiceDate) BETWEEN '2009' AND '2011';
+
+--14--
+SELECT Country, COUNT(*) AS Clientes
+from customers
+WHERE country IN  ('Spain' , 'Brazil')
+GROUP BY Country
+
+--15--
+SELECT *
+FROM tracks
+WHERE Name LIKE 'You%';
+
+
